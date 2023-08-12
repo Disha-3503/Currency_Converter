@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Currency Converter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e6e6ff; /* Light purple background */
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    select, input, button {
+      padding: 8px;
+      font-size: 16px;
+      margin-bottom: 10px; /* Add spacing between boxes */
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    p {
+      font-size: 18px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Currency Converter</h1>
+
+  <label for="amount">Amount:</label>
+  <input type="number" id="amount" placeholder="Enter amount" step="0.01">
+
+  <label for="from">From Currency:</label>
+  <select id="from">
+    <option value="usd">USD</option>
+    <option value="eur">EUR</option>
+    <option value="gbp">GBP</option>
+    <option value="inr">INR</option>
+    <option value="jpy">JPY</option>
+  </select>
+
+  <label for="to">To Currency:</label>
+  <select id="to">
+    <option value="usd">USD</option>
+    <option value="eur">EUR</option>
+    <option value="gbp">GBP</option>
+    <option value="inr">INR</option>
+    <option value="jpy">JPY</option>
+  </select>
+
+  <br>
+  <button onclick="convertCurrency()">Convert</button>
+
+  <p id="result"></p>
+
+  <script>
+    function convertCurrency() {
+      const amount = parseFloat(document.getElementById('amount').value);
+      const fromCurrency = document.getElementById('from').value;
+      const toCurrency = document.getElementById('to').value;
+
+      // Replace these with real exchange rates
+      const exchangeRates = {
+        usd: { eur: 0.85, gbp: 0.73, inr: 73.95, jpy: 109.94 },
+        eur: { usd: 1.18, gbp: 0.85, inr: 87.30, jpy: 130.22 },
+        gbp: { usd: 1.37, eur: 1.18, inr: 101.35, jpy: 149.57 },
+        inr: { usd: 0.014, eur: 0.011, gbp: 0.0099, jpy: 1.45 },
+        jpy: { usd: 0.0091, eur: 0.0077, gbp: 0.0067, inr: 0.69 }
+      };
+
+      if (isNaN(amount)) {
+        document.getElementById('result').textContent = 'Please enter a valid amount.';
+        return;
+      }
+
+      if (!exchangeRates[fromCurrency] || !exchangeRates[fromCurrency][toCurrency]) {
+        document.getElementById('result').textContent = 'Unsupported currency conversion.';
+        return;
+      }
+
+      const convertedAmount = amount * exchangeRates[fromCurrency][toCurrency];
+      document.getElementById('result').textContent = `${amount} ${fromCurrency} is approximately ${convertedAmount.toFixed(2)} ${toCurrency}.`;
+    }
+  </script>
+</body>
+</html>
